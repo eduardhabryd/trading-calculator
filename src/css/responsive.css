@@ -1,0 +1,49 @@
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  .app {
+    max-width: 460px;
+  }
+
+  .card {
+    padding: var(--space-10) var(--space-8);
+  }
+
+  .result-value {
+    font-size: var(--fs-3xl);
+  }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  .app {
+    max-width: 480px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 374px) {
+  .app {
+    max-width: 100%;
+  }
+
+  .card {
+    padding: var(--space-6) var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-value {
+    font-size: var(--fs-2xl);
+  }
+}
