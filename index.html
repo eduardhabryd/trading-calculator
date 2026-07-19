@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Premium crypto trading position calculator with leverage, risk/reward ratio, and commission-aware sizing." />
+    <title>Trade Position Calculator</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="app-logo">
+          <div class="app-logo-icon">⚡</div>
+          <span class="app-logo-text">Trade Calc</span>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <div class="theme-toggle-knob">🌙</div>
+        </button>
+      </header>
+
+      <!-- Calculator Card -->
+      <main class="card">
+        <!-- Section Header -->
+        <div class="section-header">
+          <h1 class="section-title">Position Size</h1>
+          <div class="broker-select-wrapper">
+            <select class="broker-select" id="broker-select" aria-label="Select exchange">
+              <option value="BINANCE" selected>Binance</option>
+              <option value="KRAKEN">Kraken</option>
+            </select>
+            <span class="broker-select-arrow">▾</span>
+          </div>
+        </div>
+
+        <!-- Input Form -->
+        <form class="calculator-form" id="calculator-form" autocomplete="off">
+          <div class="input-group">
+            <label class="input-label" for="input-deposit">Deposit</label>
+            <input class="input-field" type="number" id="input-deposit" placeholder="1000" value="1000" step="any" />
+            <span class="input-suffix">USDT</span>
+            <div class="input-error-msg" id="error-deposit"></div>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="input-label" for="input-risk">Risk</label>
+              <input class="input-field" type="number" id="input-risk" placeholder="1" value="1" step="any" />
+              <span class="input-suffix">%</span>
+              <div class="input-error-msg" id="error-risk"></div>
+            </div>
+            <div class="input-group">
+              <label class="input-label" for="input-stop">Stop Loss</label>
+              <input class="input-field" type="number" id="input-stop" placeholder="2" value="2" step="any" />
+              <span class="input-suffix">%</span>
+              <div class="input-error-msg" id="error-stop"></div>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="input-label" for="input-leverage">Leverage</label>
+              <input class="input-field" type="number" id="input-leverage" placeholder="1" value="1" min="1" max="125" step="1" />
+              <span class="input-suffix">×</span>
+              <div class="input-error-msg" id="error-leverage"></div>
+            </div>
+            <div class="input-group">
+              <label class="input-label" for="input-tp">Take Profit</label>
+              <input class="input-field" type="number" id="input-tp" placeholder="4" value="4" step="any" />
+              <span class="input-suffix">%</span>
+              <div class="input-error-msg" id="error-tp"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-calculate" id="btn-calculate">
+            Calculate
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider" id="results-divider" style="display:none;"></div>
+
+        <!-- Results Panel -->
+        <div class="results-panel" id="results-panel">
+          <div class="result-main">
+            <div class="result-label">Position Size</div>
+            <div class="result-value" id="result-position">$0</div>
+          </div>
+          <div class="result-grid stagger">
+            <div class="result-stat">
+              <div class="result-stat-label">Risk</div>
+              <div class="result-stat-value negative" id="result-risk">$0</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-label">R:R</div>
+              <div class="result-stat-value" id="result-rr">0:0</div>
+            </div>
+            <div class="result-stat">
+              <div class="result-stat-label">Profit</div>
+              <div class="result-stat-value positive" id="result-profit">$0</div>
+            </div>
+          </div>
+          <button class="btn-copy" id="btn-copy" type="button">
+            <span id="copy-icon">📋</span>
+            <span id="copy-text">Copy Position Size</span>
+          </button>
+        </div>
+      </main>
+
+      <!-- Keyboard Hint -->
+      <div class="keyboard-hint">
+        <kbd class="kbd">Enter</kbd> calculate · <kbd class="kbd">Esc</kbd> clear
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
