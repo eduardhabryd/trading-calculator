@@ -49,12 +49,13 @@ export const validateInputs = function (data) {
 };
 
 /**
- * Get combined commission rate (maker + taker) for a broker.
+ * Worst-case round-trip commission: pure market in/out = 2 × taker.
+ * @returns {number} decimal fraction (e.g. 0.001 for 0.10%)
  */
 const getCommission = function (broker) {
   const rates = COMMISSIONS[broker];
   if (!rates) return 0;
-  return (rates.maker + rates.taker) / 100; // Convert from percentage to decimal
+  return (rates.taker * 2) / 100;
 };
 
 /**
@@ -76,10 +77,10 @@ export const setValues = function (data) {
  * Formula:
  *   riskAmount = deposit × (risk / 100)
  *   position   = riskAmount / (stop / 100)
- *   position  -= position × totalCommission
+ *   position  -= position × (2 × taker)   // worst-case market in/out
  *   position   = min(position, deposit × leverage)   // leverage cap
  *   rrRatio    = takeProfit / stop
- *   projectedProfit = position × (takeProfit / 100) − commission
+ *   projectedProfit = position × (takeProfit / 100) − position × (2 × taker)
  */
 export const calculatePosition = function () {
   const { deposit, risk, stop, leverage, takeProfit, currentCommission } = state;
@@ -90,7 +91,7 @@ export const calculatePosition = function () {
   // Base position size
   let position = riskAmount / (stop / 100);
 
-  // Subtract commissions (applied on open + close)
+  // Subtract worst-case fees (market open + market close)
   position = position - position * currentCommission;
 
   // Cap at leveraged deposit

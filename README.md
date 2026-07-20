@@ -8,7 +8,7 @@ A premium crypto trading position calculator with leverage, risk/reward ratio, a
 - **Leverage support** — 1×–125× with position capping
 - **Take-profit projection** — projected profit at TP with commission factored in
 - **Risk/Reward ratio** — automatic R:R display
-- **Commission-aware** — Binance & Kraken maker/taker fees built in
+- **Commission-aware** — Binance & Kraken futures fees (worst-case: market in/out = 2 × taker)
 - **Dark / Light theme** — toggle with localStorage persistence + system preference detection
 - **Copy to clipboard** — one-click copy of position size with toast notification
 - **Keyboard shortcuts** — `Enter` to calculate, `Escape` to clear
@@ -43,9 +43,11 @@ npm run preview
 ```
 riskAmount = deposit × (risk / 100)
 position   = riskAmount / (stop / 100)
-position  -= position × (makerFee + takerFee)
+position  -= position × (2 × takerFee)   // worst-case market open + close
 position   = min(position, deposit × leverage)
 ```
+
+Static futures VIP0 / Tier 1 taker rates: Binance **0.05%**, Kraken **0.05%** (round-trip **0.10%** each).
 
 ## License
 

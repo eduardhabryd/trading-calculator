@@ -4,10 +4,11 @@
 
 export const TIMEOUT_SEC = 3;
 
+// Futures VIP0 / Tier 1 rates (%). Sizing uses worst-case round-trip: 2 × taker.
 export const COMMISSIONS = {
   BINANCE: {
     maker: 0.02,
-    taker: 0.04,
+    taker: 0.05,
     label: 'Binance',
   },
   KRAKEN: {
