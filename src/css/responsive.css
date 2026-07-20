@@ -46,4 +46,12 @@
   .result-value {
     font-size: var(--fs-2xl);
   }
+
+  .faq-modal {
+    max-height: 90vh;
+  }
+
+  .faq-modal-header {
+    flex-wrap: wrap;
+  }
 }

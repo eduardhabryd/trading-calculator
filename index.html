@@ -18,9 +18,12 @@
           <div class="app-logo-icon">⚡</div>
           <span class="app-logo-text">Trade Calc</span>
         </div>
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-          <div class="theme-toggle-knob">🌙</div>
-        </button>
+        <div class="header-actions">
+          <button class="faq-btn" id="faq-btn" type="button" aria-label="Open FAQ">?</button>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <div class="theme-toggle-knob">🌙</div>
+          </button>
+        </div>
       </header>
 
       <!-- Calculator Card -->
@@ -61,18 +64,32 @@
             </div>
           </div>
 
-          <div class="input-row">
-            <div class="input-group">
-              <label class="input-label" for="input-leverage">Leverage</label>
-              <input class="input-field" type="number" id="input-leverage" placeholder="1" value="1" min="1" max="125" step="1" />
-              <span class="input-suffix">×</span>
-              <div class="input-error-msg" id="error-leverage"></div>
-            </div>
-            <div class="input-group">
-              <label class="input-label" for="input-tp">Take Profit</label>
-              <input class="input-field" type="number" id="input-tp" placeholder="4" value="4" step="any" />
-              <span class="input-suffix">%</span>
-              <div class="input-error-msg" id="error-tp"></div>
+          <div class="advanced-section">
+            <button
+              type="button"
+              class="advanced-toggle"
+              id="advanced-toggle"
+              aria-expanded="false"
+              aria-controls="advanced-panel"
+            >
+              <span>Advanced</span>
+              <span class="advanced-chevron" aria-hidden="true">▾</span>
+            </button>
+            <div class="advanced-panel" id="advanced-panel">
+              <div class="input-row">
+                <div class="input-group">
+                  <label class="input-label" for="input-leverage">Leverage</label>
+                  <input class="input-field" type="number" id="input-leverage" placeholder="1" value="1" min="1" max="125" step="1" />
+                  <span class="input-suffix">×</span>
+                  <div class="input-error-msg" id="error-leverage"></div>
+                </div>
+                <div class="input-group">
+                  <label class="input-label" for="input-tp">Take Profit</label>
+                  <input class="input-field" type="number" id="input-tp" placeholder="4" value="4" step="any" />
+                  <span class="input-suffix">%</span>
+                  <div class="input-error-msg" id="error-tp"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -119,6 +136,29 @@
 
     <!-- Toast -->
     <div class="toast" id="toast"></div>
+
+    <!-- FAQ Modal -->
+    <div class="faq-overlay" id="faq-overlay" hidden>
+      <div
+        class="faq-modal"
+        id="faq-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="faq-title"
+      >
+        <div class="faq-modal-header">
+          <h2 class="faq-title" id="faq-title">How to use</h2>
+          <div class="faq-header-actions">
+            <div class="faq-lang" role="group" aria-label="Language">
+              <button type="button" class="faq-lang-btn" data-lang="en" id="faq-lang-en">EN</button>
+              <button type="button" class="faq-lang-btn" data-lang="ua" id="faq-lang-ua">UA</button>
+            </div>
+            <button type="button" class="faq-close" id="faq-close" aria-label="Close FAQ">×</button>
+          </div>
+        </div>
+        <div class="faq-body" id="faq-body"></div>
+      </div>
+    </div>
 
     <script type="module" src="/src/js/main.js"></script>
   </body>

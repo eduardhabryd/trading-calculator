@@ -11,6 +11,8 @@ class CalculatorView {
   _inputTp = document.getElementById('input-tp');
   _selectBroker = document.getElementById('broker-select');
   _btnCalculate = document.getElementById('btn-calculate');
+  _advancedToggle = document.getElementById('advanced-toggle');
+  _advancedPanel = document.getElementById('advanced-panel');
 
   /**
    * Read all input values and return as an object.
@@ -91,6 +93,18 @@ class CalculatorView {
       if (e.key === 'Escape') {
         handler();
       }
+    });
+  }
+
+  /**
+   * Bind Advanced disclosure toggle (leverage / take profit).
+   */
+  addHandlerAdvancedToggle() {
+    this._advancedToggle.addEventListener('click', () => {
+      const open = this._advancedToggle.getAttribute('aria-expanded') === 'true';
+      const next = !open;
+      this._advancedToggle.setAttribute('aria-expanded', String(next));
+      this._advancedPanel.classList.toggle('is-open', next);
     });
   }
 

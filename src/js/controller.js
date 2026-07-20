@@ -8,6 +8,7 @@ import calculatorView from './views/calculatorView.js';
 import resultsView from './views/resultsView.js';
 import toastView from './views/toastView.js';
 import themeView from './views/themeView.js';
+import faqView from './views/faqView.js';
 
 /**
  * Handle calculate action.
@@ -72,12 +73,29 @@ const controlClear = function () {
 };
 
 /**
+ * Escape: close FAQ first, otherwise clear form.
+ */
+const controlEscape = function () {
+  if (faqView.isOpen()) {
+    faqView.close();
+    return;
+  }
+  controlClear();
+};
+
+/**
  * Initialize the application.
  */
 const init = function () {
   // Theme
   themeView.init();
   themeView.addHandlerToggle(controlTheme);
+
+  // FAQ
+  faqView.init();
+  faqView.addHandlerOpen(() => faqView.open());
+  faqView.addHandlerClose(() => faqView.close());
+  faqView.addHandlerLang((lang) => faqView.setLang(lang));
 
   // Restore saved inputs, then calculate if valid
   const saved = model.loadSavedInputs();
@@ -91,8 +109,9 @@ const init = function () {
 
   // Calculator
   calculatorView.addHandlerCalculate(controlCalculate);
-  calculatorView.addHandlerClear(controlClear);
+  calculatorView.addHandlerClear(controlEscape);
   calculatorView.addHandlerPersist(controlPersist);
+  calculatorView.addHandlerAdvancedToggle();
 
   // Results
   resultsView.addHandlerCopy(controlCopy);
