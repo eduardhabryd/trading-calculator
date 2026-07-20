@@ -31,6 +31,7 @@ const controlCalculate = function () {
   // 4. Set values and calculate
   model.setValues(data);
   model.calculatePosition();
+  model.saveInputs(data);
 
   // 5. Render results
   resultsView.renderResults(model.state);
@@ -55,10 +56,18 @@ const controlTheme = function () {
 };
 
 /**
+ * Persist current form values (no validation gate).
+ */
+const controlPersist = function (data) {
+  model.saveInputs(data);
+};
+
+/**
  * Handle clear / reset.
  */
 const controlClear = function () {
   calculatorView.resetInputs(DEFAULT_VALUES);
+  model.saveInputs(DEFAULT_VALUES);
   resultsView.hideResults();
 };
 
@@ -70,9 +79,20 @@ const init = function () {
   themeView.init();
   themeView.addHandlerToggle(controlTheme);
 
+  // Restore saved inputs, then calculate if valid
+  const saved = model.loadSavedInputs();
+  calculatorView.resetInputs(saved);
+  const { valid } = model.validateInputs(saved);
+  if (valid) {
+    model.setValues(saved);
+    model.calculatePosition();
+    resultsView.renderResults(model.state);
+  }
+
   // Calculator
   calculatorView.addHandlerCalculate(controlCalculate);
   calculatorView.addHandlerClear(controlClear);
+  calculatorView.addHandlerPersist(controlPersist);
 
   // Results
   resultsView.addHandlerCopy(controlCopy);

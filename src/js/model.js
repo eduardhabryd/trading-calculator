@@ -2,7 +2,7 @@
 // MODEL — State, calculation, validation
 // ============================================
 
-import { COMMISSIONS } from './config.js';
+import { COMMISSIONS, DEFAULT_VALUES, INPUTS_KEY } from './config.js';
 
 export const state = {
   deposit: 0,
@@ -17,6 +17,60 @@ export const state = {
   rrRatio: 0,
   projectedProfit: 0,
   currentCommission: 0,
+};
+
+const INPUT_KEYS = ['deposit', 'risk', 'stop', 'leverage', 'takeProfit', 'broker'];
+
+/**
+ * Normalize persisted/raw input data against defaults.
+ * @param {Object} raw
+ * @returns {Object}
+ */
+const sanitizeInputs = function (raw) {
+  const merged = { ...DEFAULT_VALUES, ...raw };
+  return {
+    deposit: Number(merged.deposit) || DEFAULT_VALUES.deposit,
+    risk: Number(merged.risk) || DEFAULT_VALUES.risk,
+    stop: Number(merged.stop) || DEFAULT_VALUES.stop,
+    leverage: Number(merged.leverage) || DEFAULT_VALUES.leverage,
+    takeProfit: Number(merged.takeProfit) >= 0 ? Number(merged.takeProfit) : DEFAULT_VALUES.takeProfit,
+    broker:
+      merged.broker && COMMISSIONS[merged.broker]
+        ? merged.broker
+        : DEFAULT_VALUES.broker,
+  };
+};
+
+/**
+ * Load saved calculator inputs from localStorage.
+ * @returns {Object} safe inputs object
+ */
+export const loadSavedInputs = function () {
+  try {
+    const raw = localStorage.getItem(INPUTS_KEY);
+    if (!raw) return { ...DEFAULT_VALUES };
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return { ...DEFAULT_VALUES };
+    return sanitizeInputs(parsed);
+  } catch {
+    return { ...DEFAULT_VALUES };
+  }
+};
+
+/**
+ * Persist calculator inputs to localStorage.
+ * @param {Object} data
+ */
+export const saveInputs = function (data) {
+  const payload = {};
+  for (const key of INPUT_KEYS) {
+    if (key in data) payload[key] = data[key];
+  }
+  try {
+    localStorage.setItem(INPUTS_KEY, JSON.stringify(payload));
+  } catch {
+    // Quota / private mode — ignore
+  }
 };
 
 /**

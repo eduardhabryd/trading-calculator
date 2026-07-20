@@ -28,3 +28,4 @@ export const DEFAULT_VALUES = {
 };
 
 export const THEME_KEY = 'trading-calc-theme';
+export const INPUTS_KEY = 'trading-calc-inputs';

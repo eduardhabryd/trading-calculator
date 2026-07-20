@@ -95,6 +95,15 @@ class CalculatorView {
   }
 
   /**
+   * Bind form input/change handler for persistence.
+   */
+  addHandlerPersist(handler) {
+    const onPersist = () => handler(this.getData());
+    this._form.addEventListener('input', onPersist);
+    this._form.addEventListener('change', onPersist);
+  }
+
+  /**
    * Reset all inputs to defaults.
    */
   resetInputs(defaults) {
