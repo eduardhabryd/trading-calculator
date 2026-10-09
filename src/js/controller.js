@@ -13,7 +13,7 @@ import faqView from './views/faqView.js';
 /**
  * Handle calculate action.
  */
-const controlCalculate = function () {
+const controlCalculate = async function () {
   // 1. Clear previous errors
   calculatorView.clearErrors();
 
@@ -34,8 +34,9 @@ const controlCalculate = function () {
   model.calculatePosition();
   model.saveInputs(data);
 
-  // 5. Render results
+  // 5. Render results, then auto-copy position size
   resultsView.renderResults(model.state);
+  await controlCopy();
 };
 
 /**
